@@ -25,7 +25,6 @@ const getReviewData = (req, res, next) => {
     }
     return false; //Discard review duplicate
   });
-  console.log('RRRRREVIW DATA', filtered);
   res.reviewData = filtered;
   res.keywords = getKeywords(res.reviewData);
   next();
@@ -43,7 +42,6 @@ const getStarData = (req, res, next) => {
   });
   starData.average = (sum / starData.total).toFixed(1);
   res.starData = starData;
-  console.log('STARRRRR DATA', starData);
   next();
 };
 
@@ -54,7 +52,6 @@ const getFeatureData = (req, res, next) => {
       featureData[row.feature] = row.featureRating;
     }
   });
-  console.log('FFFFEATURE DATA', featureData);
   res.featureData = featureData;
   next();
 };

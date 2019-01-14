@@ -1,45 +1,37 @@
-CREATE DATABASE amazon_reviews;
-
-USE amazon_reviews;
-
 CREATE TABLE products (
-	id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	name VARCHAR(200)
+	id SERIAL PRIMARY KEY,
+	name character(200)
 );
 
 CREATE TABLE authors (
-	id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	username VARCHAR(100),
-	avatar VARCHAR(200)
+	id SERIAL PRIMARY KEY,
+	username character(100),
+	avatar character(200)
 );
 
 CREATE TABLE reviews (
-	id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	headline VARCHAR(80),
-	body VARCHAR(5000),
-	stars INTEGER,
+	id SERIAL PRIMARY KEY,
+	headline character(80),
+	body character(5000),
+	stars INTEGER NOT NULL,
 	posted DATE NOT NULL,
-	helpful INTEGER,
+	helpful INTEGER NOT NULL,
 	verified BOOLEAN DEFAULT false,
-	author_id INTEGER,
-	product_id INTEGER,
-	FOREIGN KEY (author_id) REFERENCES authors(id),
-	FOREIGN KEY (product_id) REFERENCES products(id)
-);
+	author_id INTEGER REFERENCES authors(id),
+	product_id INTEGER REFERENCES products(id)
+); 
 
 CREATE TABLE features (
-	id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	feature VARCHAR(80),
-	rating DOUBLE,
-	count INTEGER,
-	product_id INTEGER,
-	FOREIGN KEY (product_id) REFERENCES products(id)
+	id SERIAL PRIMARY KEY,
+	feature character(80),
+	rating NUMERIC(1, 0),
+	count INTEGER NOT NULL,
+	product_id INTEGER REFERENCES products(id)
 );
 
 CREATE TABLE media (
-	id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	type VARCHAR(5),
-	file VARCHAR(200),
-	review_id INTEGER,
-	FOREIGN KEY (review_id) REFERENCES reviews(id)
+	id SERIAL PRIMARY KEY,
+	type CHARACTER(5),
+	URL CHARACTER(200),
+	review_id INTEGER REFERENCES reviews(id)
 );

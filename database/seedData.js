@@ -13,7 +13,7 @@ let NUM_MEDIA = 50;
 let getRandomInt = function(start, stop) {
   return Math.floor((Math.random() * (stop - start)) + start);
 };
-
+ 
 let getRandomDouble = function(start = 0, stop = 5) {
   return ((Math.random() * (stop - start)) + start).toFixed(1);
 };
@@ -36,7 +36,7 @@ let getGibberish = () => {
 let getImages = () => {
   return fs.readdirAsync(__dirname + '/images') 
     .then(files => {
-      console.log('getimages GOT IMAGES', files);
+      // console.log('getimages GOT IMAGES', files);
       return files;
     })
     .catch(err => {
@@ -93,7 +93,7 @@ let generateFeatureRatings = function(num = NUM_FEATURES) {
 let generateMedia = function(num = NUM_MEDIA) {
   return getImages()
     .then(images => {
-      console.log('GOT IMAGES', images);
+      //console.log('GOT IMAGES', images);
       return Array.from(images, img => {
         return [
           'photo', //type
@@ -121,6 +121,8 @@ let qProducts = `INSERT INTO products VALUES ${mysqlReady(products)}`;
 let qAuthors = `INSERT INTO authors VALUES ${mysqlReady(authors)}`;
 let qFeatures = `INSERT INTO features VALUES ${mysqlReady(features)}`;
 
+console.log('LETS GENERATE REVIEWS');
+
 let qReviews = generateReviews()
   .then(reviews => {
     return `INSERT INTO reviews VALUES ${mysqlReady(reviews)}`;
@@ -129,13 +131,17 @@ let qReviews = generateReviews()
     throw err;
   });
 
+console.log('LETS GENERATE MEDIA');
+
 let qMedia = generateMedia()
   .then(media => {
     return `INSERT INTO media VALUES ${mysqlReady(media)}`;
   })
   .catch(err => {
-    throw err
+    throw err;
   });
+
+console.log('ABOUT TO ASYNC');
 
 db.queryAsync(qProducts)
   .then(ok => {

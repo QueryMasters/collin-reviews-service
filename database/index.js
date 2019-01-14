@@ -1,11 +1,18 @@
 const mysql = require('mysql');
 const db = mysql.createConnection({
-  host: 'localhost',
+  host: '172.17.0.2',
   user: 'root',
   database: 'amazon_reviews'
 });
 
-db.connect();
+console.log('LETS CONNECT');
+db.connect((err) => {
+  if (err) {
+    console.log('TRIED TO CONNECT BUT', err);
+  } else {
+    console.log('CONNECTED SUCCESSFULLY');
+  }
+});
 
 //Takes an object stating the search criteria
 const retrieve = (productId, type, callback) => {
