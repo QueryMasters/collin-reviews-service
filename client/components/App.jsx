@@ -17,7 +17,7 @@ class App extends React.Component {
       featureData: {},
       mediaList: null,
       keywords: [],
-      productId: 16,
+      productId: 29,
       filter: '',
       sortBy: 'top',
       modal: {
@@ -34,17 +34,20 @@ class App extends React.Component {
 
   fetchReviews(productId) {
     fetch(`/reviews/${productId}`, {
+      // fetch(`/reviews/1`, {
       method: 'GET'
     })
       .then(res => {
+        // console.log(res)
         return res.json();
       })
       .then(reviews => {
+        console.log(reviews)
         this.processReviews(reviews);
       })
       .catch(err => {
         console.log('ERROR FETCHING REVIEWS****************', err);
-      });
+      });   
   }
 
   processReviews({reviewData, starData, featureData, keywords}) {

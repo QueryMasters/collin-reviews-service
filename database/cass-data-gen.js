@@ -15,17 +15,17 @@ const faker = require('faker');
 //   return ((Math.random() * (stop - start)) + start).toFixed(1);
 // };
  
-// header1 = fs.writeFileSync('tab1-products.tsv', `name\n`);
+// header1 = fs.writeFileSync('cass-tab1-products.tsv', `name\n`);
 // header2 = fs.writeFileSync('tab2-authors.tsv', `username\tavatar\n`);
 // header3 = fs.writeFileSync('tab3-reviews.tsv', `headline\tbody\tstars\tposted\thelpful\tverified\n`);
 // header4 = fs.writeFileSync('tab4-features.tsv', `feature\trating\tcount\n`);
 // header5 = fs.writeFileSync('tab5-media.tsv', `type\turl\n`);
 
-const dest1 = fs.createWriteStream('tab1-products.tsv', {flags: 'w'});
-const dest2 = fs.createWriteStream('tab2-authors.tsv', {flags: 'w'});
-const dest3 = fs.createWriteStream('tab3-reviews.tsv', {flags: 'w'});
-const dest4 = fs.createWriteStream('tab4-features.tsv', {flags: 'w'});
-const dest5 = fs.createWriteStream('tab5-media.tsv', {flags: 'w'});
+const dest1 = fs.createWriteStream('database/tsv/cass-tab1-products.tsv', {flags: 'w'});
+const dest2 = fs.createWriteStream('database/tsv/cass-tab2-authors.tsv', {flags: 'w'});
+const dest3 = fs.createWriteStream('database/tsv/cass-tab3-reviews.tsv', {flags: 'w'});
+const dest4 = fs.createWriteStream('database/tsv/cass-tab4-features.tsv', {flags: 'w'});
+const dest5 = fs.createWriteStream('database/tsv/cass-tab5-media.tsv', {flags: 'w'});
 
 function appendTSV(writer) {
   let i = 10000000;
@@ -36,11 +36,11 @@ function appendTSV(writer) {
       i--;
       if (i === 0) {
         // last time!
-        writer.write(`${faker.name.firstName()}\n`);
+        writer.write(`1\t${i}\t${faker.name.firstName()}\n`);
       } else {
         // see if we should continue, or wait
         // don't pass the callback, because we're not done yet.
-        ok = writer.write(`${faker.name.firstName()}\n`);
+        ok = writer.write(`1\t${i}\t${faker.name.firstName()}\n`);
       }
     } while (i > 0 && ok);
     if (i > 0) {
@@ -60,11 +60,11 @@ function appendTSV2(writer) {
       i--;
       if (i === 0) {
         // last time!
-        writer.write(`${faker.internet.userName()}\t${faker.image.avatar()}\n`);
+        writer.write(`1\t${i}\t${faker.internet.userName()}\t${faker.image.avatar()}\n`);
       } else {
         // see if we should continue, or wait
         // don't pass the callback, because we're not done yet.
-        ok = writer.write(`${faker.internet.userName()}\t${faker.image.avatar()}\n`);
+        ok = writer.write(`1\t${i}\t${faker.internet.userName()}\t${faker.image.avatar()}\n`);
       }
     } while (i > 0 && ok);
     if (i > 0) {
@@ -84,11 +84,11 @@ function appendTSV3(writer) {
       i--;
       if (i === 0) {
         // last time!
-        writer.write(`${faker.company.catchPhrase()}\t${faker.lorem.paragraph()}\t${faker.random.number({ max: 6, min: 1 })}\t${faker.date.past().toISOString().split('T')[0]}\t${faker.random.number({ max: 1000, min: 0 })}\t${faker.random.boolean()}\t${faker.random.number({max: 10000000, min: 1})}\t${faker.random.number({max: 10000000, min: 1})}\n`);
+        writer.write(`1\t${i}\t${faker.company.catchPhrase()}\t${faker.lorem.paragraph()}\t${faker.random.number({ max: 6, min: 1 })}\t${faker.date.past().toISOString().split('T')[0]}\t${faker.random.number({ max: 1000, min: 0 })}\t${faker.random.boolean()}\n`);
       } else {
         // see if we should continue, or wait
         // don't pass the callback, because we're not done yet.
-        ok = writer.write(`${faker.company.catchPhrase()}\t${faker.lorem.paragraph()}\t${faker.random.number({ max: 6, min: 1 })}\t${faker.date.past().toISOString().split('T')[0]}\t${faker.random.number({ max: 1000, min: 0 })}\t${faker.random.boolean()}\t${faker.random.number({max: 10000000, min: 1})}\t${faker.random.number({max: 10000000, min: 1})}\n`);
+        ok = writer.write(`1\t${i}\t${faker.company.catchPhrase()}\t${faker.lorem.paragraph()}\t${faker.random.number({ max: 6, min: 1 })}\t${faker.date.past().toISOString().split('T')[0]}\t${faker.random.number({ max: 1000, min: 0 })}\t${faker.random.boolean()}\n`);
       }
     } while (i > 0 && ok);
     if (i > 0) {
@@ -108,11 +108,11 @@ function appendTSV4(writer) {
       i--;
       if (i === 0) {
         // last time!
-        writer.write(`${faker.commerce.productAdjective()}\t${faker.random.number({ max: 6, min: 1 })}\t${faker.random.number({ max: 1000, min: 1 })}\t${faker.random.number({max: 10000000, min: 1})}\n`);
+        writer.write(`1\t${i}\t${faker.commerce.productAdjective()}\t${faker.random.number({ max: 6, min: 1 })}\t${faker.random.number({ max: 1000, min: 1 })}\n`);
       } else {
         // see if we should continue, or wait
         // don't pass the callback, because we're not done yet.
-        ok = writer.write(`${faker.commerce.productAdjective()}\t${faker.random.number({ max: 6, min: 1 })}\t${faker.random.number({ max: 1000, min: 1 })}\t${faker.random.number({max: 10000000, min: 1})}\n`);
+        ok = writer.write(`1\t${i}\t${faker.commerce.productAdjective()}\t${faker.random.number({ max: 6, min: 1 })}\t${faker.random.number({ max: 1000, min: 1 })}\n`);
       }
     } while (i > 0 && ok);
     if (i > 0) {
@@ -132,11 +132,11 @@ function appendTSV5(writer) {
       i--;
       if (i === 0) {
         // last time!
-        writer.write(`photo\t${faker.image.image()}\t${faker.random.number({max: 10000000, min: 1})}\n`);
+        writer.write(`1\t${i}\tphoto\t${faker.image.image()}\n`);
       } else {
         // see if we should continue, or wait
         // don't pass the callback, because we're not done yet.
-        ok = writer.write(`photo\t${faker.image.image()}\t${faker.random.number({max: 10000000, min: 1})}\n`);
+        ok = writer.write(`1\t${i}\tphoto\t${faker.image.image()}\n`);
       }
     } while (i > 0 && ok);
     if (i > 0) {

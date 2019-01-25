@@ -1,5 +1,6 @@
 const prefaceURL = (path) => {
-  return `https://s3-us-west-1.amazonaws.com/crackling-iceberg-lettuce-120/images/${path}`;
+  // return `https://s3-us-west-1.amazonaws.com/crackling-iceberg-lettuce-120/images/${path}`;
+  return ``;
 };
 
 const monthByNumber = [

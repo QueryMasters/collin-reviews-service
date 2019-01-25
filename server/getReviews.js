@@ -1,7 +1,10 @@
-const db = require('../database');
+const pool = require('../database');
+// const db = require('../database');
 
 const retrieveData = (req, res, next) => {
-  db.retrieve(req.params.productId, req.query.reviewType, (err, results) => {
+  pool.retrieve(req.params.productId, req.query.reviewType, (err, results) => {
+    // db.retrieve(req.params.productId, req.query.reviewType, (err, results) => {
+    // console.log(req.query.reviewType)
     if (err) {
       res.status(500).send(err);
     }
@@ -64,9 +67,12 @@ let getTexts = (reviewData) => {
 };
 
 const getKeywords = (reviewData) => {
+  // console.log("########",reviewData)
   let texts = getTexts(reviewData);
+  // console.log('####', texts)
   let wordCounts = {};
   texts.forEach(text => {
+    // console.log(text)
     let textArray = text.split(/\b\s+/);
     for (let i = 0; i < textArray.length; i++) {
       let word = textArray[i].toLowerCase();

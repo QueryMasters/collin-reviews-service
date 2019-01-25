@@ -5,7 +5,7 @@
   "author": "",
   "license": "",
   "engines": {
-    "node": ">=6.13.0"
+    "node": ">=8"
   },
   "scripts": {
     "start": "nodemon server/index.js",
@@ -15,14 +15,19 @@
     "docker": "node database/seedData.js && node server/index.js"
   },
   "dependencies": {
+    "axios": "^0.18.0",
     "bluebird": "^3.5.3",
     "body-parser": "^1.18.3",
     "csv-write-stream": "^2.0.0",
     "express": "^4.16.4",
+    "jquery": "^3.3.1",
     "mysql": "^2.16.0",
+    "newrelic": "^5.2.0",
+    "pg": "^7.8.0",
     "pg-promise": "^8.5.4",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
+    "redis": "^2.8.0",
     "sequelize": "^4.42.0"
   },
   "devDependencies": {
