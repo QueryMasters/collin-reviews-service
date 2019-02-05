@@ -48,28 +48,28 @@ app.use(
 
 app.use('/reviews/:productId', retrieveData);
 
-// app.get('/reviews/:productId', getStarData, (req, res, next) => {
-//   if (req.query.reviewType === 'summary') {
-//     res.status(200).send(res.starData);
-//   }
-//   next();
-// });
+app.get('/reviews/:productId', getStarData, (req, res, next) => {
+  if (req.query.reviewType === 'summary') {
+    res.status(200).send(res.starData);
+  }
+  next();
+});
 
-const getReviews = (req, res) => {
-  cacheReviews(req.params.productId, (err, data) => {
-    if (err) {
-      console.error(err)
-      return res.sendStatus(500)
-    }
-    return res.send(data)
-  })
-};
+// const getReviews = (req, res) => {
+//   cacheReviews(req.params.productId, (err, data) => {
+//     if (err) {
+//       console.error(err)
+//       return res.sendStatus(500)
+//     }
+//     return res.send(data)
+//   })
+// };
 
 // app.get('/reviews/:productId', getStarData, getReviewData, getFeatureData, getReviews);
 
 // app.get('/reviews/:productId', getReviews);
 
-app.get('/reviews/:productId', getStarData, getReviewData, getFeatureData, (req, res) => {
+app.get('/reviews/:productId', getReviewData, getFeatureData, (req, res) => {
   let {starData, reviewData, featureData, keywords} = res;
   (req.query.reviewType === 'summary')
   ? res.status(200).send({starData})

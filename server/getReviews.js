@@ -6,6 +6,7 @@ const retrieveData = (req, res, next) => {
     // db.retrieve(req.params.productId, req.query.reviewType, (err, results) => {
     // console.log(req.query.reviewType)
     if (err) {
+      console.log('WOOOOOOOOOOOOOOOOOOWWWWWWWWWWWWW')
       res.status(500).send(err);
     }
     res.reviewData = results;
@@ -38,6 +39,7 @@ const getStarData = (req, res, next) => {
     counts: Array.from({length: 6}, i => 0),
     total: res.reviewData.length
   };
+  
   let sum = 0;
   res.reviewData.forEach(row => {
     starData.counts[row.stars]++;
@@ -56,6 +58,7 @@ const getFeatureData = (req, res, next) => {
     }
   });
   res.featureData = featureData;
+  
   next();
 };
 
