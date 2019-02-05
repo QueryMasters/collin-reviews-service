@@ -1,20 +1,14 @@
+require('newrelic');
 const {pool, retrieve} = require('../database/index');
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
 const port = 3006;
 const {retrieveData, getStarData, getReviewData, getFeatureData} = require('./getReviews.js');
+const morgan = require('morgan');
 
-// const Promise = require('bluebird');
-// Promise.promisifyAll(require('redis'));
-// const client = redis.createClient();
-// const getAsync = client.get.bind(client);
-// const setAsync = client.set.bind(client);
-const newrelic = require('newrelic');
-const {cacheReviews} = require('../database/cache');
-
-app.locals.newrelic = newrelic;
 app.use(express.static('public'));
+app.use(morgan('dev'));
 app.use(bodyParser.json())
 app.use(
   bodyParser.urlencoded({
@@ -22,72 +16,21 @@ app.use(
   })
 )
 
-// client.onAsync('connect', function() {
-//   console.log('Redis client connected');
-// });
-
-// client.onAsync('error', function (err) {
-//   console.log('Something went wrong ' + err);
-// });
-
-// setAsync('my test key', 'my test value', redis.print);
-// getAsync('my test key', function (error, result) {
-//     if (error) {
-//         console.log(error);
-//         throw error;
-//     }
-//     console.log('GET result ->' + result);
-// });
-
-// app.use(function(err, req, res, next) {
-//   res.header("Access-Control-Allow-Origin", "*");
-//   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-//   next();
-//   return false;
-// });
-
 app.use('/reviews/:productId', retrieveData);
 
-// app.get('/reviews/:productId', getStarData, (req, res, next) => {
-//   if (req.query.reviewType === 'summary') {
-//     res.status(200).send(res.starData);
-//   }
-//   next();
-// });
+app.get('/reviews/:productId', getStarData, (req, res, next) => {
+   if (req.query.reviewType === 'summary') {
+     res.status(200).send(res.starData);
+   }
+   next();
+ });
 
-const getReviews = (req, res) => {
-  cacheReviews(req.params.productId, (err, data) => {
-    if (err) {
-      console.error(err)
-      return res.sendStatus(500)
-    }
-    return res.send(data)
-  })
-};
-
-// app.get('/reviews/:productId', getStarData, getReviewData, getFeatureData, getReviews);
-
-// app.get('/reviews/:productId', getReviews);
-
-app.get('/reviews/:productId', getStarData, getReviewData, getFeatureData, (req, res) => {
+app.get('/reviews/:productId', getReviewData, getFeatureData, (req, res) => {
   let {starData, reviewData, featureData, keywords} = res;
   (req.query.reviewType === 'summary')
   ? res.status(200).send({starData})
   : res.status(200).send({starData, reviewData, featureData, keywords});
 });
-
-// app.get('/reviews/:productId', getReviewData, getFeatureData, (req, res) => {
-//   let {starData, reviewData, featureData, keywords} = res;
-
-//   let redisResult = client.getAsync('res');
-//     if (redisResult) {
-//       return res.status(200).send(redisResult);
-//   }
-//   client.setAsync('res', JSON.stringify(res)).then(redis.print);
-//   (req.query.reviewType === 'summary')
-//   ? res.status(200).send({starData})
-//   : res.status(200).send({starData, reviewData, featureData, keywords});
-// });
 
 app.post('/reviews/:productId', (req, response) => {
   const values = [

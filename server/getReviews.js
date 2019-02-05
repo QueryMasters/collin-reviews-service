@@ -6,6 +6,7 @@ const retrieveData = (req, res, next) => {
     // db.retrieve(req.params.productId, req.query.reviewType, (err, results) => {
     // console.log(req.query.reviewType)
     if (err) {
+	console.log('woooooooow', err)
       res.status(500).send(err);
     }
     res.reviewData = results;

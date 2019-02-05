@@ -6,6 +6,7 @@ import Keywords from './keywords/Keywords.jsx';
 import ReviewList from './reviews/ReviewList.jsx';
 import {buildMediaList, reorderReviews} from '../helpers';
 import styles from './stylesApp.css';
+import axios from 'axios';
 
 class App extends React.Component {
   constructor() {
@@ -17,7 +18,7 @@ class App extends React.Component {
       featureData: {},
       mediaList: null,
       keywords: [],
-      productId: 29,
+      productId: 4,
       filter: '',
       sortBy: 'top',
       modal: {
@@ -26,28 +27,29 @@ class App extends React.Component {
         reviewIndex: -1
       }
     };
-  } 
+  }
 
   componentDidMount() {
     this.fetchReviews(this.state.productId);
   }
 
   fetchReviews(productId) {
-    fetch(`/reviews/${productId}`, {
+    axios.get(`/reviews/${productId}`)
+//    fetch(`52.52.167.130:3006/reviews/${productId}`, {
       // fetch(`/reviews/1`, {
-      method: 'GET'
-    })
-      .then(res => {
+//      method: 'GET'
+//    })
+    //  .then(res => {
         // console.log(res)
-        return res.json();
-      })
+  //      return res.json();
+//      })
       .then(reviews => {
-        console.log(reviews)
-        this.processReviews(reviews);
+//        console.log("here", reviews.data)
+        this.processReviews(reviews.data);
       })
       .catch(err => {
-        console.log('ERROR FETCHING REVIEWS****************', err);
-      });   
+        console.log('ERROR FETCHING REVIEWS', err);
+      });
   }
 
   processReviews({reviewData, starData, featureData, keywords}) {

@@ -26,3 +26,5 @@ dist/
 public/app.bundle.js
 newrelic.js
 database/tsv/
+
+.env
